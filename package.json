@@ -1,0 +1,47 @@
+{
+  "name": "@agento-nexus/sdk",
+  "version": "0.1.0",
+  "description": "Agent OS in Cloud Sandboxes — OpenFang + E2B + Claude Code",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "agento-sdk": "./dist/cli/bin.js"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "tsc --noEmit"
+  },
+  "dependencies": {
+    "e2b": "^1.2.0",
+    "commander": "^13.1.0",
+    "chalk": "^5.4.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.3",
+    "tsup": "^8.4.0",
+    "vitest": "^3.0.0",
+    "@types/node": "^22.12.0"
+  },
+  "files": [
+    "dist"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/agento-nexus/sdk.git"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
