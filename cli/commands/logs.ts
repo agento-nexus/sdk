@@ -22,7 +22,7 @@ export const logsCommand = new Command("logs")
         fmt.warn(result.stderr);
       }
     } catch (err) {
-      fmt.error(err instanceof Error ? err.message : String(err));
+      fmt.diagnose(err);
       process.exit(1);
     }
   });

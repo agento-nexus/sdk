@@ -61,7 +61,7 @@ export const fleetCommand = new Command("fleet")
         process.exit(1);
       }
     } catch (err) {
-      fmt.error(err instanceof Error ? err.message : String(err));
+      fmt.diagnose(err);
       process.exit(1);
     }
   });
