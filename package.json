@@ -1,6 +1,6 @@
 {
   "name": "@agento-nexus/sdk",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "Agent OS in Cloud Sandboxes — OpenFang + E2B + Claude Code",
   "type": "module",
   "main": "./dist/index.js",
