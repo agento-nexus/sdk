@@ -91,6 +91,14 @@ In short: **agents are model-agnostic; the Claude Code bridge isn't.** The Agent
 
 ---
 
+## Toolsets
+
+OpenFang + E2B + ClaudeBridge is **one** toolset this SDK ships today. It is not the SDK's identity. The longer-term direction is to support a registry of validated toolsets that an executive agent can pull from based on the task at hand — output-oriented (what the executive needs to ship) and cost-oriented (what fits the budget). New toolsets, new sandbox providers, and non-sandbox tool surfaces will land alongside the OpenFang path, not replace it for existing consumers.
+
+Today's pinned choice is reflected in the type names (`FangBox`, `OpenFangClient`) and the default template (`openfang-claude`). Treat those as the v0.x toolset; expect a more abstract executive-and-toolset surface to emerge before 1.0 — see the SDK [issue tracker](https://github.com/agento-nexus/sdk/issues) for the design discussion.
+
+---
+
 ## Core concepts
 
 ### FangBox — sandbox + agent daemon
