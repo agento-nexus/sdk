@@ -32,7 +32,7 @@ export const initCommand = new Command("init")
       fmt.info(`OpenFang ${result.openfangVersion}`);
       fmt.info("Save as template: e2b template save --sandbox-id " + result.templateId);
     } catch (err) {
-      fmt.error(err instanceof Error ? err.message : String(err));
+      fmt.diagnose(err);
       process.exit(1);
     }
   });

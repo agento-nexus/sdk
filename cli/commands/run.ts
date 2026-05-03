@@ -48,7 +48,7 @@ export const runCommand = new Command("run")
       await box.destroy();
       fmt.success("Done");
     } catch (err) {
-      fmt.error(err instanceof Error ? err.message : String(err));
+      fmt.diagnose(err);
       process.exit(1);
     }
   });
