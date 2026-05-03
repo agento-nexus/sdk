@@ -61,14 +61,17 @@ function diagnosisFor(message: string): Diagnosis | null {
         "retry; the SDK does not retry network failures by default.",
     };
   }
-  // ANTHROPIC_API_KEY needed (claude code path)
+  // ANTHROPIC_API_KEY needed for the ClaudeBridge path specifically.
+  // Hands (FangBox.deployHand/message) are model-agnostic and route through
+  // the daemon's LLM gateway — they don't require an Anthropic key.
   if (/ANTHROPIC_API_KEY|anthropic[_\s-]?api[_\s-]?key/i.test(message)) {
     return {
-      problem: "Claude Code needs an Anthropic API key.",
+      problem: "Claude Code (ClaudeBridge) needs an Anthropic API key.",
       fix:
-        "Set ANTHROPIC_API_KEY in the environment passed to the FangBox " +
-        "(`createFangBox({ envs: { ANTHROPIC_API_KEY: ... } })`) or in the " +
-        "shell before running the CLI.",
+        "ANTHROPIC_API_KEY is required only for ClaudeBridge. Hands routed " +
+        "through the OpenFang daemon work with any LLM the gateway is " +
+        "configured for. For ClaudeBridge: set ANTHROPIC_API_KEY in the " +
+        "FangBox's envs or in the shell before running.",
       docs: "https://docs.anthropic.com/en/api/getting-started",
     };
   }

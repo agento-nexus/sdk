@@ -16,8 +16,8 @@ npm install @agento-nexus/sdk
 ## Quickstart — agent in 60 seconds
 
 ```bash
-export E2B_API_KEY=sk_...           # https://e2b.dev/dashboard
-export ANTHROPIC_API_KEY=sk-ant-... # https://console.anthropic.com/
+export E2B_API_KEY=sk_...                # https://e2b.dev/dashboard
+export AGENT_PROVIDER_API_KEY=sk-...     # whichever provider your daemon routes
 ```
 
 ```typescript
@@ -25,13 +25,17 @@ export ANTHROPIC_API_KEY=sk-ant-... # https://console.anthropic.com/
 import { createFangBox } from "@agento-nexus/sdk"
 
 const box = await createFangBox({
-  envs: { ANTHROPIC_API_KEY: process.env.ANTHROPIC_API_KEY! },
+  // Pass through whatever provider key(s) your daemon is configured for.
+  // Anthropic, OpenAI, Groq, OpenRouter, LiteLLM gateway — all supported.
+  envs: { AGENT_PROVIDER_API_KEY: process.env.AGENT_PROVIDER_API_KEY! },
   timeout: 300, // seconds
 })
 
 await box.client.deployHand({
   name: "researcher",
-  model: "claude-sonnet-4-6",
+  // The model string is whatever your daemon / gateway resolves. Examples:
+  //   "claude-sonnet-4-6", "gpt-4o", "kimi-k2", "llama-3.1-70b-instruct"
+  model: process.env.AGENT_MODEL ?? "claude-sonnet-4-6",
   system_prompt: "You are a research analyst.",
   tools: ["web_search", "file_read", "file_write"],
 })
@@ -71,6 +75,19 @@ npx agento-sdk --help
 | `agento-sdk destroy [id]` | Tear down one sandbox or all (`--all`) |
 
 Every command takes `--help` for flags. `--version` prints the SDK version (always in lockstep with `package.json`).
+
+---
+
+## Models & providers
+
+Two model paths ship in the SDK; they have different provider scopes.
+
+| Surface | Provider scope |
+|---------|----------------|
+| **FangBox + Hand** (`box.client.deployHand`, `box.client.message`) | Model-agnostic. The OpenFang daemon inside the sandbox routes through whatever LLM gateway you've configured — direct Anthropic, OpenAI, Groq, OpenRouter, or a normalizing proxy like LiteLLM. The `model` field is a string the daemon understands; pass any provider's identifier. |
+| **ClaudeBridge** (`box.claudeBridge.execute`) | Anthropic-specific by definition. This bridges Claude Code (the CLI) into the sandbox; Claude Code requires `ANTHROPIC_API_KEY`. If you don't need Claude Code's filesystem/terminal-tool integration, stick to Hands. |
+
+In short: **agents are model-agnostic; the Claude Code bridge isn't.** The Agento Nexus platform itself runs a LiteLLM gateway (`infra/openfang-gateway`) so agents can swap providers without code changes; this SDK is built for that pattern.
 
 ---
 
@@ -182,7 +199,7 @@ fleet.events.on(event => {
 Your `E2B_API_KEY` env var is missing or empty. Get a key at https://e2b.dev/dashboard, then `export E2B_API_KEY=sk_…`.
 
 **`✗ Claude Code needs an Anthropic API key.`**
-Pass `ANTHROPIC_API_KEY` to the FangBox's `envs` *or* set it in the shell before running the CLI. Get a key at https://console.anthropic.com/.
+Only the `ClaudeBridge` path requires `ANTHROPIC_API_KEY`. If you're calling `box.client.deployHand({ model, … })` and `box.client.message(…)`, the daemon routes through whichever LLM gateway you've configured — Anthropic is one option, not a requirement. Set the appropriate provider key for your gateway. For ClaudeBridge specifically: `ANTHROPIC_API_KEY` from https://console.anthropic.com/.
 
 **`ERR_MODULE_NOT_FOUND: Cannot find module '.../dist/index.js'`**
 You're on a published version older than `0.1.2`. Upgrade: `npm install @agento-nexus/sdk@latest`. (The `0.1.0` and `0.1.1` releases shipped a manifest pointing at paths that didn't exist in the tarball.)

@@ -6,9 +6,10 @@ All notable changes to `@agento-nexus/sdk`. Format follows [Keep a Changelog](ht
 
 ### Added
 - README quickstart and full CLI command table — every shipped command (`init`, `run`, `fleet`, `status`, `logs`, `destroy`) is now documented.
-- README troubleshooting section covering E2B auth, Anthropic auth, network errors, and the legacy 0.1.0/0.1.1 import bug.
-- CLI error diagnoser (`fmt.diagnose`) — pattern-matches common errors (E2B 401, Anthropic key missing, network) into a three-tier output (problem / fix / docs link). Falls back to the original error message when no pattern matches.
-- `package.json` metadata: `homepage`, `bugs`, and `keywords` so npm surfaces support channels and discovery hints.
+- README "Models & providers" section clarifying that **Hands are model-agnostic** (the daemon routes through any configured LLM gateway — Anthropic, OpenAI, Groq, OpenRouter, LiteLLM) and only **ClaudeBridge** is Anthropic-specific. The SDK is provider-neutral at the agent layer.
+- README troubleshooting section covering E2B auth, the (Anthropic-only) ClaudeBridge auth path, network errors, and the legacy 0.1.0/0.1.1 import bug.
+- CLI error diagnoser (`fmt.diagnose`) — pattern-matches common errors (E2B 401, Anthropic-for-ClaudeBridge missing, network) into a three-tier output (problem / fix / docs link). Falls back to the original error message when no pattern matches.
+- `package.json` metadata: `homepage`, `bugs`, and `keywords` (including `openai`, `litellm`, `multi-model`) so npm surfaces support channels and signals provider-neutrality.
 - This `CHANGELOG.md`.
 
 ### Changed
