@@ -22,7 +22,7 @@ export const statusCommand = new Command("status")
         })),
       );
     } catch (err) {
-      fmt.error(err instanceof Error ? err.message : String(err));
+      fmt.diagnose(err);
       process.exit(1);
     }
   });

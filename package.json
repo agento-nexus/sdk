@@ -41,6 +41,33 @@
     "type": "git",
     "url": "https://github.com/agento-nexus/sdk.git"
   },
+  "homepage": "https://github.com/agento-nexus/sdk#readme",
+  "bugs": {
+    "url": "https://github.com/agento-nexus/sdk/issues"
+  },
+  "keywords": [
+    "agent",
+    "agents",
+    "ai",
+    "llm",
+    "anthropic",
+    "claude",
+    "claude-code",
+    "openai",
+    "litellm",
+    "multi-model",
+    "model-agnostic",
+    "e2b",
+    "sandbox",
+    "cloud-sandbox",
+    "agent-os",
+    "openfang",
+    "fangbox",
+    "workflow",
+    "orchestration",
+    "dag",
+    "multi-agent"
+  ],
   "engines": {
     "node": ">=20"
   }
