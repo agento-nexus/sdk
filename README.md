@@ -50,7 +50,7 @@ await box.close()
 ```
 
 ```bash
-node --experimental-strip-types hello.ts
+npx tsx hello.ts
 ```
 
 That's the loop: provision a sandbox, deploy an agent (Hand), exchange messages, tear down. Everything else in this README is a layer on top of those four steps.

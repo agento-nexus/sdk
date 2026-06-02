@@ -43,7 +43,8 @@ export function diagnose(err: unknown): void {
 
 function diagnosisFor(message: string): Diagnosis | null {
   // E2B unauthenticated: "401: authorization header is missing"
-  if (/401|unauthor(ized|ization)/i.test(message)) {
+  // \b on 401 so it doesn't match inside unrelated numbers (IDs, ports, counts).
+  if (/\b401\b|unauthor(ized|ization)/i.test(message)) {
     return {
       problem: "E2B is not authenticated.",
       fix:
@@ -53,7 +54,7 @@ function diagnosisFor(message: string): Diagnosis | null {
     };
   }
   // Network: ECONNREFUSED, ENOTFOUND, EAI_AGAIN, getaddrinfo
-  if (/ENOTFOUND|ECONNREFUSED|EAI_AGAIN|getaddrinfo/.test(message)) {
+  if (/ENOTFOUND|ECONNREFUSED|EAI_AGAIN|getaddrinfo/i.test(message)) {
     return {
       problem: "Network reach to E2B failed.",
       fix:
